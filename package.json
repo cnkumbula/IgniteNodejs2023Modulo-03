@@ -1,0 +1,31 @@
+{
+  "name": "ignitenodejs2023modulo-03",
+  "version": "1.0.0",
+  "description": "PetShop",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx --env-file .env watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "2.2.2",
+    "@types/node": "22.9.0",
+    "@types/pg": "8.11.10",
+    "drizzle-kit": "0.28.1",
+    "eslint": "8.57.1",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "drizzle-orm": "0.36.1",
+    "fastify": "5.1.0",
+    "postgres": "3.4.5",
+    "zod": "3.23.8"
+  }
+}
