@@ -9,7 +9,7 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
     name: z.string(),
     whatsapp: z.string().regex(whatsappRegex, 'Invalid Wahatsapp Number!'),
     address: z.string(),
-    email: z.string().email(),
+    email: z.string().email().toLowerCase(),
     password: z.string(),
   })
 

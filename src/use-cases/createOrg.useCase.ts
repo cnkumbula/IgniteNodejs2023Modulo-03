@@ -27,24 +27,15 @@ export async function createOrgUseCase({
     .where(eq(org.email, email))
     .limit(1)
 
-  if (existingOrg.length) {
+  const existingWhatsapp = await db
+    .select()
+    .from(org)
+    .where(eq(org.whatsapp, whatsapp))
+    .limit(1)
+
+  if (existingOrg.length || existingWhatsapp.length) {
     throw new Error('Email already exists')
   }
-
-  /* const result = await db
-    .insert(org)
-    .values({
-      name,
-      whatsapp,
-      address,
-      email,
-      password: passwordHash,
-    })
-    .returning()
-
-  const orgResult = result[0]
-
-  return { orgResult } */
 
   const drizzleOrgRepositories = new DrizzleOrgRepositories()
 
@@ -56,5 +47,3 @@ export async function createOrgUseCase({
     password: passwordHash,
   })
 }
-
-// DrizzleOrgRepositories
