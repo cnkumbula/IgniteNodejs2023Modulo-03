@@ -34,7 +34,7 @@ export async function createOrgUseCase({
     .limit(1)
 
   if (existingOrg.length || existingWhatsapp.length) {
-    throw new Error('Email already exists')
+    throw new Error('Email already exists or whatsapp already exists')
   }
 
   const drizzleOrgRepositories = new DrizzleOrgRepositories()
