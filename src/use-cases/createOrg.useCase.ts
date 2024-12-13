@@ -1,8 +1,5 @@
-import { db } from '@/db'
-import { org } from '@/db/schema'
+import type { OrgsRepository } from '@/repositories/orgs-repository'
 import { hash } from 'bcryptjs'
-import { eq } from 'drizzle-orm'
-import { DrizzleOrgRepositories } from '@/repositories/drizzle-org-repositories'
 
 interface CreateOrg {
   name: string
@@ -12,38 +9,25 @@ interface CreateOrg {
   password: string
 }
 
-export async function createOrgUseCase({
-  name,
-  whatsapp,
-  address,
-  email,
-  password,
-}: CreateOrg) {
-  const passwordHash = await hash(password, 6)
+export class CreateOrgUseCase {
+  constructor(private orgRepository: OrgsRepository) {}
+  async handle({ name, whatsapp, address, email, password }: CreateOrg) {
+    const passwordHash = await hash(password, 6)
 
-  const existingOrg = await db
-    .select()
-    .from(org)
-    .where(eq(org.email, email))
-    .limit(1)
+    const orgWithSameEmail = await this.orgRepository.findbyemail(email)
+    const orgWithSameWhatsapp =
+      await this.orgRepository.findbywhatsapp(whatsapp)
 
-  const existingWhatsapp = await db
-    .select()
-    .from(org)
-    .where(eq(org.whatsapp, whatsapp))
-    .limit(1)
+    if (orgWithSameEmail.length || orgWithSameWhatsapp.length) {
+      throw new Error('Email already exists or whatsapp already exists')
+    }
 
-  if (existingOrg.length || existingWhatsapp.length) {
-    throw new Error('Email already exists or whatsapp already exists')
+    await this.orgRepository.create({
+      name,
+      whatsapp,
+      address,
+      email,
+      password: passwordHash,
+    })
   }
-
-  const drizzleOrgRepositories = new DrizzleOrgRepositories()
-
-  await drizzleOrgRepositories.create({
-    name,
-    whatsapp,
-    address,
-    email,
-    password: passwordHash,
-  })
 }

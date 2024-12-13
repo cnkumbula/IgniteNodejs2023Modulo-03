@@ -1,6 +1,7 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { createOrgUseCase } from '@/use-cases/createOrg.useCase'
+import { CreateOrgUseCase } from '@/use-cases/createOrg.useCase'
+import { DrizzleOrgRepository } from '@/repositories/Drizzle/drizzle-org-repositories'
 
 export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   const whatsappRegex = /^\+258\d{9}$/
@@ -14,11 +15,14 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   })
 
   const { name, whatsapp, address, email, password } = orgbodySchema.parse(
-    request.body,
+    request.body
   )
 
   try {
-    await createOrgUseCase({
+    const drizzleOrgRepository = new DrizzleOrgRepository()
+    const createOrgUseCase = new CreateOrgUseCase(drizzleOrgRepository)
+
+    await createOrgUseCase.handle({
       name,
       whatsapp,
       address,

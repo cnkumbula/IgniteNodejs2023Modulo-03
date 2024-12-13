@@ -1,5 +1,5 @@
-import { InferModel } from 'drizzle-orm'
-import { adoptionRequest, org, pet, user } from '@/db/schema'
+import type { InferModel } from 'drizzle-orm'
+import type { adoptionRequest, org, pet, user } from '@/db/schema'
 
 // Tipos para a tabela `org`
 export type Org = InferModel<typeof org> // SELECT
