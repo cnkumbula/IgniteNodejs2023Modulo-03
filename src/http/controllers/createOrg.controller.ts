@@ -7,9 +7,9 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   const whatsappRegex = /^\+258\d{9}$/
 
   const orgbodySchema = z.object({
-    name: z.string(),
+    name: z.string().toLowerCase(),
     whatsapp: z.string().regex(whatsappRegex, 'Invalid Wahatsapp Number!'),
-    address: z.string(),
+    address: z.string().toLowerCase(),
     email: z.string().email().toLowerCase(),
     password: z.string(),
   })
