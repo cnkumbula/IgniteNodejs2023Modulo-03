@@ -1,7 +1,7 @@
 import { db } from '@/db'
 import { org } from '@/db/schema'
-import { OrgInsert } from '../../../types/drizzle'
-import { OrgsRepository } from '../orgs-repository'
+import type { OrgInsert } from '../../../types/drizzle'
+import type { OrgsRepository } from '../orgs-repository'
 import { eq } from 'drizzle-orm'
 
 export class DrizzleOrgRepository implements OrgsRepository {
