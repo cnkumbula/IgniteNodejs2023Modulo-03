@@ -1,0 +1,1 @@
+ALTER TABLE "pet" DROP COLUMN IF EXISTS "city";

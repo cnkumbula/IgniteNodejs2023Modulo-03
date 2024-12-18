@@ -25,7 +25,6 @@ export const pet = pgTable('pet', {
   size: text('size').notNull(),
   color: text('color').notNull(),
   description: text('description').notNull(),
-  city: text('city').notNull(),
   status: text('status').notNull(),
   createdAt: timestamp('createdAt', { withTimezone: true })
     .defaultNow()
