@@ -4,11 +4,6 @@ import { CreatePetUseCase } from '@/use-cases/createPet.useCase'
 import { DrizzlePetRepository } from '@/repositories/Drizzle/drizzle-pet-repositories'
 
 export async function createPet(request: FastifyRequest, reply: FastifyReply) {
-  enum PetStatus {
-    available = 'available',
-    adopted = 'adopted',
-  }
-
   const petbodySchema = z.object({
     name: z.string().toLowerCase(),
     age: z.string().toLowerCase(),

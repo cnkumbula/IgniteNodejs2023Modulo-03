@@ -21,20 +21,19 @@ export class CreatePetUseCase {
     size,
     color,
     description,
-    //city,
     status,
     orgId,
   }: CreatePet) {
-    await this.petRepository.create({
+    const pet = await this.petRepository.create({
       name,
       age,
       sex,
       size,
       color,
       description,
-      //city,
       status,
       orgId,
     })
+    return { pet }
   }
 }

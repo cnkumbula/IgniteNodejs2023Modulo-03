@@ -1,5 +1,7 @@
 import type { OrgsRepository } from '@/repositories/orgs-repository'
-import { hash } from 'bcryptjs'
+import type { Org } from '../../types/drizzle'
+import bcrypt from 'bcryptjs'
+import { OrgAlreadyExistsError } from './errors/org-already-exists'
 
 interface CreateOrg {
   name: string
@@ -9,25 +11,37 @@ interface CreateOrg {
   password: string
 }
 
+interface OrgUseCaseResponse {
+  org: Org
+}
+
 export class CreateOrgUseCase {
   constructor(private orgRepository: OrgsRepository) {}
-  async handle({ name, whatsapp, address, email, password }: CreateOrg) {
-    const passwordHash = await hash(password, 6)
+  async handle({
+    name,
+    whatsapp,
+    address,
+    email,
+    password,
+  }: CreateOrg): Promise<OrgUseCaseResponse> {
+    //const passwordHash = await hash(password, 6)
+    const passwordHash = await bcrypt.hash(password, 10)
 
     const orgWithSameEmail = await this.orgRepository.findbyemail(email)
     const orgWithSameWhatsapp =
       await this.orgRepository.findbywhatsapp(whatsapp)
 
     if (orgWithSameEmail.length || orgWithSameWhatsapp.length) {
-      throw new Error('Email already exists or whatsapp already exists')
+      throw new OrgAlreadyExistsError()
     }
 
-    await this.orgRepository.create({
+    const org = await this.orgRepository.create({
       name,
       whatsapp,
       address,
       email,
       password: passwordHash,
     })
+    return { org: org[0] }
   }
 }
