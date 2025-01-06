@@ -1,40 +1,59 @@
 import { expect, describe, it } from 'vitest'
 import { CreateOrgUseCase } from './createOrg.useCase'
 import bcrypt from 'bcryptjs'
-import { createId } from '@paralleldrive/cuid2'
+import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
+import { OrgAlreadyExistsError } from './errors/org-already-exists'
 
 describe('Create Org Use Case', () => {
-  it('should hash org password', async () => {
-    //const sut = new CreateOrgUseCase(new DrizzleOrgRepository())
-    // const drizzleOrgRepository = new DrizzleOrgRepository()
-    //const sut = new CreateOrgUseCase(drizzleOrgRepository)
-
-    const createOrgUseCase = new CreateOrgUseCase({
-      async findbyemail(email) {
-        return []
-      },
-      async findbywhatsapp(whatsapp) {
-        return []
-      },
-      async create(data) {
-        return [
-          {
-            id: createId(),
-            name: data.name,
-            whatsapp: data.whatsapp,
-            address: data.address,
-            email: data.email,
-            password: data.password,
-            createdAt: new Date(),
-          },
-        ]
-      },
-    })
+  it('should be able to create an org', async () => {
+    const orgRepository = new InMemoryOrgsRepository()
+    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
 
     const { org } = await createOrgUseCase.handle({
       name: 'pets org',
       whatsapp: '+258801471458',
-      address: 'Maputo-Provinci',
+      address: 'Maputo-Provincia',
+      email: 'PetsOrg585X@org.co.mz',
+      password: 'any_password',
+    })
+
+    expect(org.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to create an org with same email or whatsapp', async () => {
+    const orgRepository = new InMemoryOrgsRepository()
+    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
+
+    const email = 'PetsOrg585X@org.co.mz'
+    const whatsapp = '+258801471458'
+
+    await createOrgUseCase.handle({
+      name: 'pets org',
+      whatsapp,
+      address: 'Maputo-Provincia',
+      email,
+      password: 'any_password',
+    })
+
+    await expect(() => {
+      return createOrgUseCase.handle({
+        name: 'pets org',
+        whatsapp,
+        address: 'Maputo-Provincia',
+        email,
+        password: 'any_password',
+      })
+    }).rejects.toBeInstanceOf(OrgAlreadyExistsError)
+  })
+
+  it('should hash org password', async () => {
+    const orgRepository = new InMemoryOrgsRepository()
+    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
+
+    const { org } = await createOrgUseCase.handle({
+      name: 'pets org',
+      whatsapp: '+258801471458',
+      address: 'Maputo-Provincia',
       email: 'PetsOrg585X@org.co.mz',
       password: 'any_password',
     })
