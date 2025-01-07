@@ -1,15 +1,19 @@
-import { expect, describe, it } from 'vitest'
+import { expect, describe, it, beforeEach } from 'vitest'
 import { CreateOrgUseCase } from './createOrg.useCase'
 import bcrypt from 'bcryptjs'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { OrgAlreadyExistsError } from './errors/org-already-exists'
 
-describe('Create Org Use Case', () => {
-  it('should be able to create an org', async () => {
-    const orgRepository = new InMemoryOrgsRepository()
-    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
+let orgRepository: InMemoryOrgsRepository
+let sut: CreateOrgUseCase
 
-    const { org } = await createOrgUseCase.handle({
+describe('Create Org Use Case', () => {
+  beforeEach(() => {
+    orgRepository = new InMemoryOrgsRepository()
+    sut = new CreateOrgUseCase(orgRepository)
+  })
+  it('should be able to create an org', async () => {
+    const { org } = await sut.handle({
       name: 'pets org',
       whatsapp: '+258801471458',
       address: 'Maputo-Provincia',
@@ -21,13 +25,10 @@ describe('Create Org Use Case', () => {
   })
 
   it('should not be able to create an org with same email or whatsapp', async () => {
-    const orgRepository = new InMemoryOrgsRepository()
-    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
-
     const email = 'PetsOrg585X@org.co.mz'
     const whatsapp = '+258801471458'
 
-    await createOrgUseCase.handle({
+    await sut.handle({
       name: 'pets org',
       whatsapp,
       address: 'Maputo-Provincia',
@@ -36,7 +37,7 @@ describe('Create Org Use Case', () => {
     })
 
     await expect(() => {
-      return createOrgUseCase.handle({
+      return sut.handle({
         name: 'pets org',
         whatsapp,
         address: 'Maputo-Provincia',
@@ -47,10 +48,7 @@ describe('Create Org Use Case', () => {
   })
 
   it('should hash org password', async () => {
-    const orgRepository = new InMemoryOrgsRepository()
-    const createOrgUseCase = new CreateOrgUseCase(orgRepository)
-
-    const { org } = await createOrgUseCase.handle({
+    const { org } = await sut.handle({
       name: 'pets org',
       whatsapp: '+258801471458',
       address: 'Maputo-Provincia',

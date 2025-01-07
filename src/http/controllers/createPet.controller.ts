@@ -1,7 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { CreatePetUseCase } from '@/use-cases/createPet.useCase'
-import { DrizzlePetRepository } from '@/repositories/Drizzle/drizzle-pet-repositories'
+import { makeCreatePetUseCase } from '@/use-cases/factories/make-createPet-useCase'
 
 export async function createPet(request: FastifyRequest, reply: FastifyReply) {
   const petbodySchema = z.object({
@@ -19,8 +18,7 @@ export async function createPet(request: FastifyRequest, reply: FastifyReply) {
     petbodySchema.parse(request.body)
 
   try {
-    const drizzlePetRepository = new DrizzlePetRepository()
-    const createPetUseCase = new CreatePetUseCase(drizzlePetRepository)
+    const createPetUseCase = makeCreatePetUseCase()
 
     await createPetUseCase.handle({
       name,
