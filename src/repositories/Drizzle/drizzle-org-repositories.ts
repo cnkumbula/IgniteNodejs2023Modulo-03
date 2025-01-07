@@ -25,6 +25,16 @@ export class DrizzleOrgRepository implements OrgsRepository {
     return existingOrgWhatsapp
   }
 
+  async findbyId(id: string) {
+    const existingOrgId = await db
+      .select()
+      .from(org)
+      .where(eq(org.id, id))
+      .limit(1)
+
+    return existingOrgId
+  }
+
   async create(data: OrgInsert) {
     const OrgDataSet = await db.insert(org).values(data).returning()
 
