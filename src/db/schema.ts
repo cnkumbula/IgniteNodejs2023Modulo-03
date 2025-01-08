@@ -42,9 +42,9 @@ export const user = pgTable('user', {
   email: text('email').notNull(),
   password: text('password').notNull(),
   whatsapp: text('whatsapp').notNull(),
-  orgId: text('orgId')
-    .notNull()
-    .references(() => org.id),
+  createdAt: timestamp('createdAt', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
 })
 
 export const adoptionRequest = pgTable('adoptionRequest', {
