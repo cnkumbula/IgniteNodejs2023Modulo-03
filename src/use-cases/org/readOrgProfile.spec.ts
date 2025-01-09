@@ -2,7 +2,7 @@ import { expect, describe, it, beforeEach } from 'vitest'
 import bcrypt from 'bcryptjs'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { ReadOrgProfileUseCase } from './readOrgProfile.useCase'
-import { resourceNotFoundErrors } from '../errors/resource-not-found-errors'
+import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 let orgRepository: InMemoryOrgsRepository
 let sut: ReadOrgProfileUseCase
@@ -33,6 +33,6 @@ describe('Get Org Profile Use Case', () => {
       sut.handle({
         orgId: 'PetsOrg585X@org.co.mz',
       })
-    ).rejects.toBeInstanceOf(resourceNotFoundErrors)
+    ).rejects.toBeInstanceOf(ResourceNotFoundErrors)
   })
 })

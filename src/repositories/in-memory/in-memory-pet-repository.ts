@@ -3,9 +3,15 @@ import type { PetInsert, Pet } from '../../../types/drizzle'
 import { createId } from '@paralleldrive/cuid2'
 
 export class InMemoryPetsRepository implements PetsRepository {
+  private pets: Pet[] = []
   async findById(id: string) {
-    //  throw new Error('Method not implemented.')
-    return []
+    const pet = this.pets.find(pet => pet.id === id)
+
+    if (!pet) {
+      return []
+    }
+
+    return [pet]
   }
 
   async findByCity(query: string) {
@@ -24,6 +30,23 @@ export class InMemoryPetsRepository implements PetsRepository {
   }
 
   async create(data: PetInsert) {
-    return []
+    const pet = [
+      {
+        id: createId(),
+        name: data.name,
+        age: data.age,
+        description: data.description,
+        status: data.status,
+        orgId: data.orgId,
+        sex: data.sex,
+        size: data.size,
+        color: data.color,
+        createdAt: new Date(),
+      },
+    ]
+
+    this.pets.push(pet[0])
+
+    return pet
   }
 }

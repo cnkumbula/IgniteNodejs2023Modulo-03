@@ -3,29 +3,27 @@ import type { Pet } from '../../../types/drizzle'
 import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 interface ReadPetUseCaseRequest {
-  query: string
-  //page: number
+  petId: string
 }
 
 interface ReadPetUseCaseResponse {
-  pets: Pet[]
+  pet: Pet
 }
 
-export class ReadPetByStatusUseCase {
+export class ReadPetByIdUseCase {
   constructor(private petsRepository: PetsRepository) {}
 
   async handle({
-    query,
-    // page,
+    petId,
   }: ReadPetUseCaseRequest): Promise<ReadPetUseCaseResponse> {
-    const pets = await this.petsRepository.findByStatus(query /*, page*/)
+    const pet = await this.petsRepository.findById(petId)
 
-    if (!pets || pets.length === 0) {
+    if (!pet || pet.length === 0) {
       throw new ResourceNotFoundErrors()
     }
 
     return {
-      pets: pets,
+      pet: pet[0],
     }
   }
 }

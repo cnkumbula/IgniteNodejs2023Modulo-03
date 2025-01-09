@@ -1,6 +1,6 @@
 import type { PetsRepository } from '@/repositories/pets-repository'
 import type { Pet } from '../../../types/drizzle'
-import { resourceNotFoundErrors } from '../errors/resource-not-found-errors'
+import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 interface ReadPetUseCaseRequest {
   query: string
@@ -34,7 +34,7 @@ export class ReadPetUseCase {
     }*/
 
     if (!pets || pets.length === 0) {
-      throw new resourceNotFoundErrors()
+      throw new ResourceNotFoundErrors()
     }
 
     return {

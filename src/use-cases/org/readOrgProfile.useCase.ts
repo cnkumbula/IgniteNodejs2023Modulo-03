@@ -1,6 +1,6 @@
 import type { OrgsRepository } from '@/repositories/orgs-repository'
 import type { Org } from '../../../types/drizzle'
-import { resourceNotFoundErrors } from '../errors/resource-not-found-errors'
+import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 interface ReadOrgProfileUseCaseRequest {
   orgId: string
@@ -23,7 +23,7 @@ export class ReadOrgProfileUseCase {
     }*/
 
     if (!org || org.length === 0) {
-      throw new resourceNotFoundErrors()
+      throw new ResourceNotFoundErrors()
     }
 
     return {
