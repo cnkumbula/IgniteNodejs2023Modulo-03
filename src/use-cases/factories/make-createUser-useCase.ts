@@ -1,5 +1,5 @@
 import { DrizzleUserRepository } from '@/repositories/Drizzle/drizzle-user-repositories'
-import { CreateUserUseCase } from '../createUser.useCase'
+import { CreateUserUseCase } from '../user/createUser.useCase'
 
 export function makeCreateOrgUseCase() {
   const drizzleUserRepository = new DrizzleUserRepository()

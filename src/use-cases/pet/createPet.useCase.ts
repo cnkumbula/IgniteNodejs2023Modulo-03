@@ -7,7 +7,6 @@ interface CreatePet {
   size: string
   color: string
   description: string
-  //city: string
   status: string
   orgId: string
 }

@@ -1,6 +1,6 @@
 import type { OrgsRepository } from '@/repositories/orgs-repository'
-import type { Org } from '../../types/drizzle'
-import { InvalidCredentialsError } from './errors/invalid-credential-errors'
+import type { Org } from '../../../types/drizzle'
+import { InvalidCredentialsError } from '../errors/invalid-credential-errors'
 import bcrypt from 'bcryptjs'
 
 interface AuthenticateUseCaseRequest {

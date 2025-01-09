@@ -2,7 +2,7 @@ import { expect, describe, it, beforeEach } from 'vitest'
 import bcrypt from 'bcryptjs'
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { ReadOrgProfileUseCase } from './readOrgProfile.useCase'
-import { resourceNotFoundErrors } from './errors/resource-not-found-errors'
+import { resourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 let orgRepository: InMemoryOrgsRepository
 let sut: ReadOrgProfileUseCase

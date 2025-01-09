@@ -1,7 +1,7 @@
 import type { OrgsRepository } from '@/repositories/orgs-repository'
-import type { Org } from '../../types/drizzle'
+import type { Org } from '../../../types/drizzle'
 import bcrypt from 'bcryptjs'
-import { OrgAlreadyExistsError } from './errors/org-already-exists'
+import { OrgAlreadyExistsError } from '../errors/org-already-exists'
 
 interface CreateOrg {
   name: string

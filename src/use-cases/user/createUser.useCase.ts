@@ -1,7 +1,7 @@
 import type { UserRepository } from '@/repositories/user-repository'
-import type { User } from '../../types/drizzle'
+import type { User } from '../../../types/drizzle'
 import bcrypt from 'bcryptjs'
-import { UserAlreadyExistsError } from './errors/user-already-exists'
+import { UserAlreadyExistsError } from '../errors/user-already-exists'
 
 interface CreateUser {
   name: string

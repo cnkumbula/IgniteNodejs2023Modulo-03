@@ -1,6 +1,6 @@
 import type { OrgsRepository } from '@/repositories/orgs-repository'
-import type { Org } from '../../types/drizzle'
-import { resourceNotFoundErrors } from './errors/resource-not-found-errors'
+import type { Org } from '../../../types/drizzle'
+import { resourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 interface ReadOrgProfileUseCaseRequest {
   orgId: string

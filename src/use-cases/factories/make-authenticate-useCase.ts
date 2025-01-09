@@ -1,5 +1,5 @@
 import { DrizzleOrgRepository } from '@/repositories/Drizzle/drizzle-org-repositories'
-import { AuthenticateUseCase } from '../authenticate.useCase'
+import { AuthenticateUseCase } from '../authenticate/authenticate.useCase'
 
 export function makeAuthenticateOrgUseCase() {
   const drizzleOrgRepository = new DrizzleOrgRepository()
