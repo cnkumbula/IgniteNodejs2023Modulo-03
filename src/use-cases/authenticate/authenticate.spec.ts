@@ -30,7 +30,7 @@ describe('Authenticate Org Use Case', () => {
   })
 
   it('should not be able to authenticate an org with wrong credentials', async () => {
-    expect(() =>
+    await expect(() =>
       sut.handle({
         email: 'PetsOrg585X@org.co.mz',
         password: 'any_password',
@@ -47,7 +47,7 @@ describe('Authenticate Org Use Case', () => {
       password: await bcrypt.hashSync('any_password', 10),
     })
 
-    expect(() =>
+    await expect(() =>
       sut.handle({
         email: 'PetsOrg585X@org.co.mz',
         password: 'any_passwords',
@@ -64,7 +64,7 @@ describe('Authenticate Org Use Case', () => {
       password: await bcrypt.hashSync('any_password', 10),
     })
 
-    expect(() =>
+    await expect(() =>
       sut.handle({
         email: 'PetsOrg585X@org.co.mzn',
         password: 'any_password',

@@ -34,6 +34,13 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
     return [org]
   }
+
+  async findByCity(city: string, page: number) {
+    return this.orgs
+      .filter(org => org.address === city)
+      .slice((page - 1) * 10, page * 10)
+  }
+
   async create(data: OrgInsert) {
     const org = [
       {

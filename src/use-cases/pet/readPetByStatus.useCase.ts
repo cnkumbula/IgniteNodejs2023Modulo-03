@@ -1,10 +1,9 @@
 import type { PetsRepository } from '@/repositories/pets-repository'
 import type { Pet } from '../../../types/drizzle'
-import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 
 interface ReadPetUseCaseRequest {
   query: string
-  //page: number
+  page: number
 }
 
 interface ReadPetUseCaseResponse {
@@ -16,16 +15,12 @@ export class ReadPetByStatusUseCase {
 
   async handle({
     query,
-    // page,
+    page,
   }: ReadPetUseCaseRequest): Promise<ReadPetUseCaseResponse> {
-    const pets = await this.petsRepository.findByStatus(query /*, page*/)
-
-    if (!pets || pets.length === 0) {
-      throw new ResourceNotFoundErrors()
-    }
+    const pets = await this.petsRepository.findByStatus(query, page)
 
     return {
-      pets: pets,
+      pets,
     }
   }
 }

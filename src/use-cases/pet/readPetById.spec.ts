@@ -7,14 +7,13 @@ import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
 let petRepository: InMemoryPetsRepository
 let sut: ReadPetByIdUseCase
 
-describe('Read pet information by id', () => {
+describe('Read pet information by id use Case', () => {
   beforeEach(() => {
     petRepository = new InMemoryPetsRepository()
     sut = new ReadPetByIdUseCase(petRepository)
   })
   it('should be able to read a pet by id', async () => {
     const createdPet = await petRepository.create({
-      //id: 'as136u4nvrvs6mmcdyybnx4w',
       name: 'melted',
       age: '1 mes',
       description: 'chow-chow',
@@ -35,7 +34,7 @@ describe('Read pet information by id', () => {
   })
 
   it('should not be able to read a pet with wrong id', async () => {
-    expect(() =>
+    await expect(() =>
       sut.handle({
         petId: 'bp4hsvdhlmlbxydkck1zntkr',
       })

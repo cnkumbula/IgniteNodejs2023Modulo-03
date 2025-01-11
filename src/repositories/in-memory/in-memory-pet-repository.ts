@@ -1,9 +1,18 @@
 import type { PetsRepository } from '../pets-repository'
-import type { PetInsert, Pet } from '../../../types/drizzle'
+//import type { OrgsRepository } from '../orgs-repository'
+import type { PetInsert, Pet, Org } from '../../../types/drizzle'
 import { createId } from '@paralleldrive/cuid2'
+import type { InMemoryOrgsRepository } from './in-memory-orgs-repository'
 
 export class InMemoryPetsRepository implements PetsRepository {
-  private pets: Pet[] = []
+  public pets: Pet[] = []
+
+  private orgsRepo: InMemoryOrgsRepository
+
+  constructor(orgRepo: InMemoryOrgsRepository) {
+    this.orgsRepo = orgRepo // Initialize it in the constructor
+  }
+
   async findById(id: string) {
     const pet = this.pets.find(pet => pet.id === id)
 
@@ -14,15 +23,43 @@ export class InMemoryPetsRepository implements PetsRepository {
     return [pet]
   }
 
-  async findByCity(query: string) {
-    const pets: Pet[] = []
-    const orgs: Org[] = []
-    // Add logic to populate pets and orgs arrays
-    return { pets, orgs }
+  async findByCityAndAvailableStatus(city: string, page: number) {
+    //console.log('Filtering organizations by city...')
+
+    const filteredCities = this.orgsRepo.orgs.filter(
+      org => org.address === city
+    )
+
+    //console.log('Filtered Organizations:', filteredCities)
+
+    if (!filteredCities) {
+      return []
+    }
+
+    //console.log('Filtering pets by available status...')
+    const availablePets = this.pets.filter(pet => pet.status === 'available')
+    //console.log('Available Pets:', availablePets)
+
+    //console.log('Mapping pets to organizations...')
+    const orgWithPets = filteredCities.map(org => {
+      const petsInOrg = availablePets.filter(pet => pet.orgId === org.id)
+      //console.log(`Pets for Org ${org.name}:`, petsInOrg)
+      return { ...org, pets: petsInOrg }
+    })
+
+    //console.log('Flattening pets from organizations and paginating...')
+    const paginatedPets = orgWithPets
+      .flatMap(org => org.pets)
+      .slice((page - 1) * 10, page * 10)
+
+    //console.log('Paginated Pets:', paginatedPets)
+    return paginatedPets
   }
 
-  async findByStatus(status: string) {
-    return []
+  async findByStatus(status: string, page: number) {
+    return this.pets
+      .filter(pet => pet.status === status)
+      .slice((page - 1) * 10, page * 10)
   }
 
   async findByPetDetails(details: string) {

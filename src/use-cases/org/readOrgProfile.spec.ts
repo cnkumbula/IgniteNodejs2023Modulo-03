@@ -29,7 +29,7 @@ describe('Get Org Profile Use Case', () => {
   })
 
   it('should not be able to get an org profile with wrong id', async () => {
-    expect(() =>
+    await expect(() =>
       sut.handle({
         orgId: 'PetsOrg585X@org.co.mz',
       })
