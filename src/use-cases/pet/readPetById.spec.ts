@@ -3,13 +3,16 @@ import { expect, describe, it, beforeEach } from 'vitest'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pet-repository'
 import { ReadPetByIdUseCase } from './readPetById.useCase'
 import { ResourceNotFoundErrors } from '../errors/resource-not-found-errors'
+import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 
 let petRepository: InMemoryPetsRepository
 let sut: ReadPetByIdUseCase
+let orgRepository: InMemoryOrgsRepository
 
 describe('Read pet information by id use Case', () => {
   beforeEach(() => {
-    petRepository = new InMemoryPetsRepository()
+    orgRepository = new InMemoryOrgsRepository()
+    petRepository = new InMemoryPetsRepository(orgRepository)
     sut = new ReadPetByIdUseCase(petRepository)
   })
   it('should be able to read a pet by id', async () => {

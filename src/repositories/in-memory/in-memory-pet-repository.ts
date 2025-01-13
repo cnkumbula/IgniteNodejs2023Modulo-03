@@ -12,6 +12,31 @@ export class InMemoryPetsRepository implements PetsRepository {
   constructor(orgRepo: InMemoryOrgsRepository) {
     this.orgsRepo = orgRepo // Initialize it in the constructor
   }
+  async findByPetDetails(
+    description: string,
+    sex: string,
+    color: string,
+    page: number
+  ) {
+    /*return this.pets
+      .filter(
+        pet =>
+          pet.sex === sex &&
+          pet.description === description &&
+          pet.color === color
+      )
+      .slice((page - 1) * 10, page * 10)*/
+
+    const filteredPets = this.pets.filter(
+      pet =>
+        pet.description === description &&
+        pet.sex === sex &&
+        pet.color === color &&
+        pet.status === 'available'
+    )
+
+    return filteredPets.slice((page - 1) * 10, page * 10)
+  }
 
   async findById(id: string) {
     const pet = this.pets.find(pet => pet.id === id)
@@ -60,10 +85,6 @@ export class InMemoryPetsRepository implements PetsRepository {
     return this.pets
       .filter(pet => pet.status === status)
       .slice((page - 1) * 10, page * 10)
-  }
-
-  async findByPetDetails(details: string) {
-    return []
   }
 
   async create(data: PetInsert) {
