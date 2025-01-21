@@ -2,8 +2,8 @@ import { DrizzlePetRepository } from '@/repositories/Drizzle/drizzle-pet-reposit
 import { ReadPetByStatusUseCase } from '../pet/readPetByStatus.useCase'
 
 export function makeReadPetByStatusUseCase() {
-  const drizzlePetRepository = new DrizzlePetRepository()
-  const readPetUseCase = new ReadPetByStatusUseCase(drizzlePetRepository)
+  const petRepository = new DrizzlePetRepository()
+  const readPetByStatusUseCase = new ReadPetByStatusUseCase(petRepository)
 
-  return readPetUseCase
+  return readPetByStatusUseCase
 }

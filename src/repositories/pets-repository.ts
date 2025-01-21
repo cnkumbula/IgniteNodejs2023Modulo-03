@@ -12,8 +12,3 @@ export interface PetsRepository {
   ): Promise<Pet[]>
   create(data: PetInsert): Promise<Pet[]>
 }
-/*
-findByCity
-findByStatus
-findByPetDetails
-findByPetDetails (Sex, Race, Age, Color)*/

@@ -1,10 +1,21 @@
 import { db } from '@/db'
 import { org } from '@/db/schema'
-import type { OrgInsert } from '../../../types/drizzle'
+import type { Org, OrgInsert } from '../../../types/drizzle'
 import type { OrgsRepository } from '../orgs-repository'
 import { eq } from 'drizzle-orm'
 
 export class DrizzleOrgRepository implements OrgsRepository {
+  async findByCity(city: string, page: number) {
+    const OrgDataSet = await db
+      .select()
+      .from(org)
+      .where(eq(org.address, city))
+      .limit(10)
+      .offset((page - 1) * 10)
+
+    return OrgDataSet
+  }
+
   async findbyemail(email: string) {
     const existingOrgEmail = await db
       .select()
