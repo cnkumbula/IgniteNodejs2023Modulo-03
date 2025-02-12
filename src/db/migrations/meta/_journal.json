@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1731592144893,
-      "tag": "0000_flippant_shooting_star",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1731652604874,
-      "tag": "0001_absurd_hulk",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1734440057944,
-      "tag": "0002_dapper_the_initiative",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1736319554743,
-      "tag": "0003_familiar_orphan",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1736321797800,
-      "tag": "0004_fancy_rhino",
+      "when": 1738765511626,
+      "tag": "0000_furry_shaman",
       "breakpoints": true
     }
   ]

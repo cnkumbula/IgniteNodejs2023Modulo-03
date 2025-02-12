@@ -1,5 +1,5 @@
 {
-  "id": "c2177ca1-018c-4c8d-9505-7449b30f9eaa",
+  "id": "69a40d97-5ea2-4a82-8e93-6baaaa60484b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -110,6 +110,18 @@
           "primaryKey": false,
           "notNull": true
         },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "whatsapp": {
           "name": "whatsapp",
           "type": "text",
@@ -180,12 +192,6 @@
         },
         "description": {
           "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "city": {
-          "name": "city",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -266,29 +272,16 @@
           "primaryKey": false,
           "notNull": true
         },
-        "orgId": {
-          "name": "orgId",
-          "type": "text",
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "user_orgId_org_id_fk": {
-          "name": "user_orgId_org_id_fk",
-          "tableFrom": "user",
-          "tableTo": "org",
-          "columnsFrom": [
-            "orgId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

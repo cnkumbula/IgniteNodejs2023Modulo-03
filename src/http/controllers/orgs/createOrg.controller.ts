@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeCreateOrgUseCase } from '@/use-cases/factories/make-createOrg-useCase'
+import { OrgAlreadyExistsError } from '@/use-cases/errors/org-already-exists'
 
 export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
   const whatsappRegex = /^\+258\d{9}$/
@@ -28,7 +29,7 @@ export async function createOrg(request: FastifyRequest, reply: FastifyReply) {
       password,
     })
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof OrgAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }
     //return reply.status(500).send()

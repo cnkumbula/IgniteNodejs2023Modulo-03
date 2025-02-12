@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS "adoptionRequest" (
 CREATE TABLE IF NOT EXISTS "org" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
+	"email" text NOT NULL,
+	"password" text NOT NULL,
 	"whatsapp" text NOT NULL,
 	"address" text NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
@@ -23,7 +25,6 @@ CREATE TABLE IF NOT EXISTS "pet" (
 	"size" text NOT NULL,
 	"color" text NOT NULL,
 	"description" text NOT NULL,
-	"city" text NOT NULL,
 	"status" text NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"orgId" text NOT NULL
@@ -35,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"email" text NOT NULL,
 	"password" text NOT NULL,
 	"whatsapp" text NOT NULL,
-	"orgId" text NOT NULL
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN
@@ -58,12 +59,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "pet" ADD CONSTRAINT "pet_orgId_org_id_fk" FOREIGN KEY ("orgId") REFERENCES "public"."org"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "user" ADD CONSTRAINT "user_orgId_org_id_fk" FOREIGN KEY ("orgId") REFERENCES "public"."org"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

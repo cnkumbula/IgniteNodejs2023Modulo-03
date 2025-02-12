@@ -5,9 +5,6 @@ export async function readOrgProfile(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  //await request.jwtVerify()
-  //console.log(request.user.sub)
-
   const getOrgProfile = makeReadOrgProfileUseCase()
 
   const { org } = await getOrgProfile.handle({
