@@ -54,10 +54,12 @@ export class DrizzlePetRepository implements PetsRepository {
       .select()
       .from(pet)
       .where(
-        eq(pet.description, description) &&
-          eq(pet.sex, sex) &&
-          eq(pet.color, color) &&
+        and(
+          eq(pet.description, description),
+          eq(pet.sex, sex),
+          eq(pet.color, color),
           eq(pet.status, 'available')
+        )
       )
       .limit(10)
       .offset((page - 1) * 10)

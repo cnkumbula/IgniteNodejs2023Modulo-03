@@ -5,13 +5,8 @@ import request from 'supertest'
 import { app } from '@/app'
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { DrizzleOrgRepository } from '@/repositories/Drizzle/drizzle-org-repositories'
-
-let orgRepository: DrizzleOrgRepository
-
-describe('read pet by status (e2e)', () => {
+describe('read pet by given details(e2e)', () => {
   beforeAll(async () => {
-    orgRepository = new DrizzleOrgRepository()
     await app.ready()
   })
 
@@ -19,7 +14,7 @@ describe('read pet by status (e2e)', () => {
     await app.close()
   })
 
-  it.skip('should be able to search a pet by status', async () => {
+  it('should be able to search a pet by given details', async () => {
     const orgs = await db
       .insert(org)
       .values({
@@ -50,7 +45,7 @@ describe('read pet by status (e2e)', () => {
       orgId: orgs[0].id,
       sex: 'male',
       size: '25 cm',
-      color: 'Brown',
+      color: 'brown',
     })
 
     await db.insert(pet).values({
@@ -61,21 +56,32 @@ describe('read pet by status (e2e)', () => {
       orgId: orgs[0].id,
       sex: 'female',
       size: '25 cm',
-      color: 'Browm',
+      color: 'brown',
+    })
+
+    await db.insert(pet).values({
+      name: 'Denzel',
+      age: '1 mes',
+      description: 'chow-chow',
+      status: 'available',
+      orgId: orgs[0].id,
+      sex: 'male',
+      size: '35 cm',
+      color: 'brown',
     })
 
     const response = await request(app.server)
-      .get('/pets/readPetByStatus')
-      .query({ query: 'available', page: 1 })
+      .get('/pets/readPetByDetails')
+      .query({ description: 'chow-chow', sex: 'male', color: 'Brown', page: 1 })
       .send()
 
     expect(response.statusCode).toEqual(200)
     expect(response.body.pets).toEqual([
       expect.objectContaining({
-        name: 'melted',
+        name: 'Newton',
       }),
       expect.objectContaining({
-        name: 'Newton',
+        name: 'Denzel',
       }),
     ])
   })
