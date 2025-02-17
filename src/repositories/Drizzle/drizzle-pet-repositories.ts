@@ -71,11 +71,12 @@ export class DrizzlePetRepository implements PetsRepository {
     const PetDataSet = await db
       .select()
       .from(pet)
-      .where(eq(pet.status, 'available'))
+      .innerJoin(org, eq(pet.orgId, org.id))
+      .where(and(eq(pet.status, 'available'), eq(org.address, city)))
       .limit(10)
       .offset((page - 1) * 10)
 
-    return PetDataSet
+    return PetDataSet.map(row => row.pet)
   }
 
   async findById(id: string) {

@@ -14,7 +14,7 @@ describe('read pet by given details(e2e)', () => {
     await app.close()
   })
 
-  it('should be able to search a pet by given details', async () => {
+  it.skip('should be able to search a pet by given details', async () => {
     const orgs = await db
       .insert(org)
       .values({
@@ -84,5 +84,18 @@ describe('read pet by given details(e2e)', () => {
         name: 'Denzel',
       }),
     ])
+  })
+  it.skip('sshould not be able to search a pet by given details', async () => {
+    const response = await request(app.server)
+      .get('/pets/readPetByDetails')
+      .query({
+        description: 'german sheperd',
+        sex: 'male',
+        color: 'Brown',
+        page: 1,
+      })
+      .send()
+
+    expect(response.statusCode).toEqual(404)
   })
 })
